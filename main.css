@@ -109,24 +109,24 @@ font-size:16px!important;
     top: 5px!important;
     position: absolute;
     font-family: josefinBold!important;
-    font-size:15px!important;
+    font-size:16px!important;
 }
 
 .warning-alert{
     color: #9F6000;
     background-color: #FEEFB3;
-
     opacity: 1;
     top: 0px;
     border-color: #fcf8e3;
     transition: all 0.5s;
 }
 
-.danger-alert{
+.error-alert{
     opacity: 1;
     top: 0px;
-    background-color: #faebcc;
-    border-color: #fcf8e3;
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
     transition: all 0.5s;
 
 }
@@ -333,8 +333,8 @@ font-size:16px!important;
     margin-top: -32px;
 }
 
-.slideUp .modal-backdrop.in{
-    opacity:0!important;
+.modal{
+    overflow-y:hidden 
 }
 
 

@@ -129,8 +129,11 @@ var myApp = angular.module('bugtracker');
 				$scope.editable = true;
 			}else{
 			if (bug.bugtitle.length==0 || bug.bugtitle === $scope.originalBug.bugtitle && bug.descr === $scope.originalBug.descr ) {
-				$scope.selectedBug = angular.copy($scope.emptyObj);
-				$scope.showSlideUpModal = false;
+				$scope.showUndoAlert=true; 
+	         	$scope.notificationType = "error-alert";
+	         	$scope.notificationMessage = "Change one of the property or Add a Title";
+	         	$timeout(function () { $scope.showUndoAlert = false; $scope.notificationType = ""; $scope.notificationMessage = ""; }, 3000);
+         	
 				return;
 			}
 			var index = $scope.bugs.map(function(e) { return e.id; }).indexOf($scope.originalBug.id);
