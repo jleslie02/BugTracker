@@ -42,7 +42,8 @@ body{
     width: 150px;
     height: 150px;
     margin-top: -0px;
-    margin-left: 50px;
+    margin-left: 10px;
+    margin-right: 20px;
     border-radius: 50px;
     transform: rotate(10deg);
 

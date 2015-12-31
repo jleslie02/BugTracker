@@ -7,6 +7,7 @@ var myApp = angular.module('bugtracker');
 	    $scope.showSlideUpModal = false;
 	    $scope.editable = false;
 	    $scope.showUndoAlert=false; 
+	    $scope.alerImage="";
 
 	    var bugs ='';
 	    $scope.canShow = false;
@@ -150,13 +151,14 @@ var myApp = angular.module('bugtracker');
 			if(!$scope.editable){
 				$scope.editable = true;
 			}else{
-			if (bug.bugtitle.length==0 || $scope.isInStore(bug.bugtitle) || bug.bugtitle === $scope.originalBug.bugtitle && bug.descr === $scope.originalBug.descr ) {
+			if (bug.bugtitle.length==0 || ($scope.isInStore(bug.bugtitle) && bug.bugtitle != $scope.originalBug.bugtitle) || (bug.bugtitle === $scope.originalBug.bugtitle && bug.descr === $scope.originalBug.descr) ) {
 				var msg =""
 	         	if(bug.bugtitle.length==0){
 	         		msg = "Add a Title";
 	         	}else if (bug.bugtitle === $scope.originalBug.bugtitle && bug.descr === $scope.originalBug.descr){
 	         		msg= "Change 1 or more properties";
-	         	}else if($scope.isInStore(bug.bugtitle)){
+	         	}else if((bug.bugtitle != $scope.originalBug.bugtitle) && $scope.isInStore(bug.bugtitle)){
+	         		console.log($scope.originalBug.bugtitle);
 	         		msg = "This Title Already Exists";
 	         	}
 	         	$scope.displayNotification("error-alert",msg,"images/danger.png");
