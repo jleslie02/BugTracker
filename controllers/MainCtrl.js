@@ -48,11 +48,12 @@ var myApp = angular.module('bugtracker');
 
 	    $scope.undoMove = function(){
 	    	if(!$scope.movesStack.pop()){
-	         	$scope.showUndoAlert=false; 
-	         	$timeout(function () { $scope.showUndoAlert = true; }, 3000);
+	         	$scope.showUndoAlert=true; 
+	         	$scope.notificationType = "warning-alert";
+	         	$scope.notificationMessage = "NOTHING TO UNDO";
+	         	$timeout(function () { $scope.showUndoAlert = false; $scope.notificationType = ""; $scope.notificationMessage = ""; }, 3000);
          	}else{
          		var lastMove = $scope.movesStack.pop();
-         		
          	}
 	    };
 
