@@ -51,6 +51,7 @@ var myApp = angular.module('bugtracker');
 	    	if(!lastMove){
 	         	$scope.showUndoAlert=true; 
 	         	$scope.notificationType = "warning-alert";
+	         	$scope.alertImage = "images/warning.png";
 	         	$scope.notificationMessage = "Nothing To Undo";
 	         	$timeout(function () { $scope.showUndoAlert = false; $scope.notificationType = ""; $scope.notificationMessage = ""; }, 3000);
          	}else{
@@ -131,9 +132,14 @@ var myApp = angular.module('bugtracker');
 			if (bug.bugtitle.length==0 || bug.bugtitle === $scope.originalBug.bugtitle && bug.descr === $scope.originalBug.descr ) {
 				$scope.showUndoAlert=true; 
 	         	$scope.notificationType = "error-alert";
-	         	$scope.notificationMessage = "Change one of the property or Add a Title";
+	         	$scope.alertImage = "images/danger.png";
+	         	if(bug.bugtitle.length==0){
+	         		$scope.notificationMessage = "Add a Title";
+	         	}else{
+	         		$scope.notificationMessage = "Change 1 or more properties";
+	         	}
+	         	
 	         	$timeout(function () { $scope.showUndoAlert = false; $scope.notificationType = ""; $scope.notificationMessage = ""; }, 3000);
-         	
 				return;
 			}
 			var index = $scope.bugs.map(function(e) { return e.id; }).indexOf($scope.originalBug.id);
@@ -184,6 +190,7 @@ var myApp = angular.module('bugtracker');
        
         $scope.onDropProgress=function(data,evt){
              var index = $scope.bugs.indexOf(data);
+             console.log("here");
              if (index > -1 && $scope.bugs[index].status!="progress"){
              	$scope.movesStack.push({data:data, from_to: $scope.bugs[index].status+ "_progress"});
             	$scope.bugs[index].status = "progress";
@@ -194,6 +201,7 @@ var myApp = angular.module('bugtracker');
         };
         $scope.onDropQA=function(data,evt){
             var index = $scope.bugs.indexOf(data);
+             console.log("here");
             if (index > -1 && $scope.bugs[index].status!="qa"){
             	$scope.movesStack.push({data:data, from_to: $scope.bugs[index].status+ "_qa"});
             	$scope.bugs[index].status = "qa";
@@ -205,6 +213,7 @@ var myApp = angular.module('bugtracker');
 
         $scope.onDropComplete=function(data,evt){
              var index = $scope.bugs.indexOf(data);
+              console.log("here");
             if (index > -1 && $scope.bugs[index].status!="complete"){
             	$scope.movesStack.push({data:data, from_to: $scope.bugs[index].status + "_complete"});
             	$scope.bugs[index].status = "complete";

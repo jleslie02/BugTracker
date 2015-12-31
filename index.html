@@ -25,7 +25,7 @@
 				      <button type="submit" ng-click="addBug(newBug)" class="btn btn-default">Add a bug</button>
 				    </form>
 		  		</modal> 
-		  		<div ng-show="showUndoAlert" class="notification {{notificationType}}"><span class="notif-msg">{{notificationMessage}}</span></div>
+		  		<div ng-show="showUndoAlert" class="notification {{notificationType}}"><img class="notif-img" src="{{alertImage}}" alt="alert image" /><span class="notif-msg">{{notificationMessage}}</span></div>
 
 		  		<modal title="Bug Description" visible="showSlideUpModal">
 				    <form role="form">

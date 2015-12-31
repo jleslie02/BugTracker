@@ -106,10 +106,17 @@ font-size:16px!important;
     transition: all 0.5s;
 }
 .notif-msg{
-    top: 5px!important;
+    top: 10px!important;
+    margin-left:40px;
     position: absolute;
     font-family: josefinBold!important;
     font-size:16px!important;
+}
+.notif-img{
+    top: 5px!important;
+    position: absolute;
+    width:25px;
+    height:25px;
 }
 
 .warning-alert{
