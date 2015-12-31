@@ -46,15 +46,20 @@ var myApp = angular.module('bugtracker');
 	        $scope.showModal = !$scope.showModal;
 	    };
 
+	     $scope.displayNotification = function(alert, message, img){
+	   		$scope.showUndoAlert=true; 
+	        $scope.notificationType = alert;
+	        $scope.alertImage = img;
+	        $scope.notificationMessage = message;
+	        $timeout(function () { $scope.showUndoAlert = false; $scope.notificationType = ""; $scope.notificationMessage = ""; }, 3000);
+			
+	    };
+
 	    $scope.undoMove = function(){
 	    	var lastMove = $scope.movesStack.pop(); 
 	    	if(!lastMove){
-	         	$scope.showUndoAlert=true; 
-	         	$scope.notificationType = "warning-alert";
-	         	$scope.alertImage = "images/warning.png";
-	         	$scope.notificationMessage = "Nothing To Undo";
-	         	$timeout(function () { $scope.showUndoAlert = false; $scope.notificationType = ""; $scope.notificationMessage = ""; }, 3000);
-         	}else{
+	         	$scope.displayNotification( "warning-alert", "Nothing To Undo","images/warning.png");
+	        }else{
          		
          		var data = lastMove.data;
          		var newStatus = lastMove.from_to.substring(0, lastMove.from_to.indexOf("_"));
@@ -73,6 +78,8 @@ var myApp = angular.module('bugtracker');
 	      	return false;
 	      }
 	    };
+
+	   
 
 	    $scope.backlogFilter = function (item) { 
     		return item.status === "backlog";
@@ -100,19 +107,15 @@ var myApp = angular.module('bugtracker');
 			if (!nBug.bugtitle) {
 				return;
 			}else if($scope.isInStore(nBug.bugtitle)){
-
-				$scope.showUndoAlert=true; 
-	         	$scope.notificationType = "error-alert";
-	         	$scope.alertImage = "images/danger.png";
-	         		$scope.notificationMessage = "The Title Already Exists";
-	         	$timeout(function () { $scope.showUndoAlert = false; $scope.notificationType = ""; $scope.notificationMessage = ""; }, 3000);
-				return;
+				$scope.displayNotification("error-alert", "The Title Already Exists","images/danger.png");
+	         	return;
 			}
 			var total = parseInt($scope.totalNumber) + 1;
 
 			$scope.saving = true;
 			store.insert(nBug, total)
 				.then(function success() {
+					$scope.displayNotification("success-alert", "Bug Added let's work on fixing it","images/success.png");
 					$scope.newBug = angular.copy($scope.emptyObj);
 					$scope.showModal = false;
 					$scope.bugs = store.bugs;
@@ -147,24 +150,23 @@ var myApp = angular.module('bugtracker');
 			if(!$scope.editable){
 				$scope.editable = true;
 			}else{
-			if (bug.bugtitle.length==0 || !$scope.isInStore(bug.bugtitle) || bug.bugtitle === $scope.originalBug.bugtitle && bug.descr === $scope.originalBug.descr ) {
-				$scope.showUndoAlert=true; 
-	         	$scope.notificationType = "error-alert";
-	         	$scope.alertImage = "images/danger.png";
+			if (bug.bugtitle.length==0 || $scope.isInStore(bug.bugtitle) || bug.bugtitle === $scope.originalBug.bugtitle && bug.descr === $scope.originalBug.descr ) {
+				var msg =""
 	         	if(bug.bugtitle.length==0){
-	         		$scope.notificationMessage = "Add a Title";
+	         		msg = "Add a Title";
 	         	}else if (bug.bugtitle === $scope.originalBug.bugtitle && bug.descr === $scope.originalBug.descr){
-	         		$scope.notificationMessage = "Change 1 or more properties";
+	         		msg= "Change 1 or more properties";
 	         	}else if($scope.isInStore(bug.bugtitle)){
-	         		$scope.notificationMessage = "This Title Already Exists";
+	         		msg = "This Title Already Exists";
 	         	}
-	         	$timeout(function () { $scope.showUndoAlert = false; $scope.notificationType = ""; $scope.notificationMessage = ""; }, 3000);
-				return;
+	         	$scope.displayNotification("error-alert",msg,"images/danger.png");
+	         	return;
 			}
 			var index = $scope.bugs.map(function(e) { return e.id; }).indexOf($scope.originalBug.id);
 		
 			store.put(bug, index )
 				.then(function success() {
+					$scope.displayNotification("success-alert", "Bug Successfully Edited","images/success.png");
 					$scope.showSlideUpModal = false;
 					$scope.bugs = store.bugs;
 					console.log($scope.bugs);

@@ -141,10 +141,9 @@ font-size:16px!important;
 .success-alert{
     opacity: 1;
     top: 0px;
-    font-family: josefinBold!important;
-    font-size:15px!important;
-    background-color: #faebcc;
-    border-color: #fcf8e3;
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
     transition: all 0.5s;
 }
 
