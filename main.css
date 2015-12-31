@@ -88,14 +88,15 @@ font-size:16px!important;
 }
 
 
-.notification{
-    padding: 15px;
+.notification{  
+
     border: 1px solid transparent;
     border-radius: 4px;
     position: fixed;
     top: -70px;
-    left: 30% !important;
-    width: 50%!important;
+    left: 70% !important;
+    min-width:300px;
+    width: 30%!important;
     height: 30px;
     padding: 20px;
     overflow: hidden;
@@ -104,14 +105,19 @@ font-size:16px!important;
     z-index:999999!important;
     transition: all 0.5s;
 }
+.notif-msg{
+    top: 5px!important;
+    position: absolute;
+    font-family: josefinBold!important;
+    font-size:15px!important;
+}
 
 .warning-alert{
-    color: #8a6d3b;
-    font-family: josefinBold!important;
-    font-size:16px!important;
+    color: #9F6000;
+    background-color: #FEEFB3;
+
     opacity: 1;
     top: 0px;
-    background-color: #faebcc;
     border-color: #fcf8e3;
     transition: all 0.5s;
 }
@@ -125,8 +131,10 @@ font-size:16px!important;
 
 }
 .success-alert{
-  opacity: 1;
+    opacity: 1;
     top: 0px;
+    font-family: josefinBold!important;
+    font-size:15px!important;
     background-color: #faebcc;
     border-color: #fcf8e3;
     transition: all 0.5s;

@@ -47,13 +47,19 @@ var myApp = angular.module('bugtracker');
 	    };
 
 	    $scope.undoMove = function(){
-	    	if(!$scope.movesStack.pop()){
+	    	var lastMove = $scope.movesStack.pop(); 
+	    	if(!lastMove){
 	         	$scope.showUndoAlert=true; 
 	         	$scope.notificationType = "warning-alert";
-	         	$scope.notificationMessage = "NOTHING TO UNDO";
+	         	$scope.notificationMessage = "Nothing To Undo";
 	         	$timeout(function () { $scope.showUndoAlert = false; $scope.notificationType = ""; $scope.notificationMessage = ""; }, 3000);
          	}else{
-         		var lastMove = $scope.movesStack.pop();
+         		
+         		var data = lastMove.data;
+         		var newStatus = lastMove.from_to.substring(0, lastMove.from_to.indexOf("_"));
+         		data.status = newStatus;
+         		var index = $scope.bugs.map(function(e) { return e.id; }).indexOf(data.id);
+            	$scope.saveBug(data, index);
          	}
 	    };
 
@@ -143,21 +149,16 @@ var myApp = angular.module('bugtracker');
 			}
 		};
 
-		// $scope.revertEdits = function (bug) {
-		// 	bugs[bugs.indexOf(bug)] = $scope.originalBug;
-		// 	$scope.editedBug = null;
-		// 	$scope.originalBug = null;
-		// 	$scope.reverted = true;
-		// };
-
 		$scope.removeBug = function (bug) {
 			store.delete(bug);
 			$scope.bugs = store.bugs;
 		};
 
 
-		$scope.saveBug = function (bug) {
-			store.put(bug);
+		$scope.saveBug = function (bug, index) {
+			store.put(bug, index);
+			$scope.bugs = store.bugs;
+
 		};
 
 	
@@ -172,25 +173,19 @@ var myApp = angular.module('bugtracker');
             if (index > -1 && $scope.bugs[index].status!="backlog"){
             	$scope.movesStack.push({data:data, from_to: $scope.bugs[index].status+ "_backlog"});
             	$scope.bugs[index].status = "backlog";
-            	var newbugs = $scope.bugs;
-            	$scope.saveBug(newbugs);
+            	var newbugs = $scope.bugs[index];
+            	$scope.saveBug(newbugs, index);
             	
             }
         };
-        
-        // $scope.onDragProgress=function(data,evt){
-        //     var index = $scope.droppedObjects2.indexOf(data);
-        //     if (index > -1) {
-        //         $scope.droppedObjects2.splice(index, 1);
-        //     }
-        // };
+       
         $scope.onDropProgress=function(data,evt){
              var index = $scope.bugs.indexOf(data);
              if (index > -1 && $scope.bugs[index].status!="progress"){
              	$scope.movesStack.push({data:data, from_to: $scope.bugs[index].status+ "_progress"});
             	$scope.bugs[index].status = "progress";
-            	var newbugs = $scope.bugs;
-            	$scope.saveBug(newbugs);
+            	var newbugs = $scope.bugs[index];
+            	$scope.saveBug(newbugs, index);
             	
             }
         };
@@ -199,31 +194,19 @@ var myApp = angular.module('bugtracker');
             if (index > -1 && $scope.bugs[index].status!="qa"){
             	$scope.movesStack.push({data:data, from_to: $scope.bugs[index].status+ "_qa"});
             	$scope.bugs[index].status = "qa";
-            	var newbugs = $scope.bugs;
-            	$scope.saveBug(newbugs);
+            	var newbugs = $scope.bugs[index];
+            	$scope.saveBug(newbugs, index);
             	
             }
         };
-        // $scope.onDragQA=function(data,evt){
-        //     console.log("133","$scope","onDragSuccess1", "", evt);
-        //     var index = $scope.droppedObjects1.indexOf(data);
-        //     if (index > -1) {
-        //         $scope.droppedObjects1.splice(index, 1);
-        //     }
-        // }
-        // $scope.onDragComplete=function(data,evt){
-        //     var index = $scope.droppedObjects2.indexOf(data);
-        //     if (index > -1) {
-        //         $scope.droppedObjects2.splice(index, 1);
-        //     }
-        // }
+
         $scope.onDropComplete=function(data,evt){
              var index = $scope.bugs.indexOf(data);
             if (index > -1 && $scope.bugs[index].status!="complete"){
             	$scope.movesStack.push({data:data, from_to: $scope.bugs[index].status + "_complete"});
             	$scope.bugs[index].status = "complete";
-            	var newbugs = $scope.bugs;
-            	$scope.saveBug(newbugs);
+            	var newbugs = $scope.bugs[index];
+            	$scope.saveBug(newbugs, index);
 
             };
           }
