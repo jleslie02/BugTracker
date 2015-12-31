@@ -10,7 +10,7 @@
 
 	
 	</head>
-	<body ng-app="bugtracker" ng-controller="MainCtrl" ng-show="canShow" ng-cloak>
+	<body ng-app="bugtracker" ng-controller="MainCtrl" ng-show="canShow" ng-class="{'slideUp': showSlideUpModal, 'addbug': showModal}" ng-cloak>
 
 				 <modal title="Describe The Bug" visible="showModal">
 				    <form role="form">
@@ -83,6 +83,7 @@
 						</div>
 						<div class="progress-list">
 							<ul ng-drop="true" ng-drop-success="onDropProgress($data,$event)">
+							 	<draggableClone></draggableClone>
 								<li ng-drag="true" ng-drag-data="bug" ng-drag-success="onDragProgress($data,$event)" ng-center-anchor="true" ng-repeat="bug in bugs | filter: progressFilter" class="item-li">
 									<div class="bug-item">{{bug.id}}. {{bug.bugtitle}}
 										<icons bug="bug" on-show="showBug(bug)" on-delete="removeBug(bug)" on-edit="editBug(bug)"></icons>
@@ -98,6 +99,7 @@
 						</div>
 						<div class="progress-list">
 							<ul ng-drop="true" ng-drop-success="onDropQA($data,$event)" >
+							 	<draggableClone></draggableClone>
 								<li ng-drag="true" ng-drag-data="bug" ng-drag-success="onDragQA($data,$event)" ng-center-anchor="true" ng-repeat="bug in bugs | filter: qaFilter" class="item-li">
 									<div class="bug-item">{{bug.id}}. {{bug.bugtitle}}
 										<icons bug="bug" on-show="showBug(bug)" on-delete="removeBug(bug)" on-edit="editBug(bug)"></icons>
@@ -113,6 +115,7 @@
 						</div>
 						<div class="progress-list">
 							<ul ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
+
 								<li ng-drag="true" ng-drag-data="bug" ng-drag-success="onDragComplte($data,$event)" ng-center-anchor="true" ng-repeat="bug in bugs | filter: completeFilter" class="item-li">
 									<div class="bug-item">{{bug.id}}. {{bug.bugtitle}}
 										<icons bug="bug" on-show="showBug(bug)" on-delete="removeBug(bug)" on-edit="editBug(bug)"></icons>

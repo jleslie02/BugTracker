@@ -217,7 +217,7 @@ font-size:16px!important;
 }
 
 
-.item-li, .clone{
+.item-li{
     list-style: none;
     font-size:  18px;
     display: inline-flex;
@@ -244,7 +244,16 @@ font-size:16px!important;
 .clone{
     border:none!important;
     padding-left: 10px;
-    background-color: rgba(0, 0,0, 0.4)
+    background-color: rgba(0, 0,0, 0.4);
+    list-style: none;
+    font-size:  18px;
+    display: inline-flex;
+    line-height: 50px;
+    border-bottom:1px solid #ffffff;
+    width: 105%!important;
+    font-family: josefinBold;
+   margin-left:300px;
+
 }
 
 .icons{
@@ -320,6 +329,13 @@ font-size:16px!important;
     border-radius: 3px ;
 }
 
+.slideUp .modal .modal-dialog .modal-content{
+    margin-top: -32px;
+}
+
+.slideUp .modal-backdrop.in{
+    opacity:0!important;
+}
 
 
 
