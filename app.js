@@ -1,0 +1,1 @@
+var bugtracker = angular.module('bugtracker', ['ngDraggable', 'ngAnimate']);

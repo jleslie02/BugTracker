@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" data-framework="angularjs">
+	<head>
+		<meta charset="utf-8">
+		<title>AngularJS • TodoMVC</title>
+		<style>[ng-cloak] { display: none; }</style>
+		<link type='text/css' rel="stylesheet" href="bootstrap.min.css">
+		<link type='text/css' rel="stylesheet" href="main.css">
+		<link href='https://fonts.googleapis.com/css?family=Ubuntu:700' rel='stylesheet' type='text/css'>
+
+	
+	</head>
+	<body ng-app="bugtracker" ng-controller="MainCtrl" ng-show="canShow" ng-cloak>
+
+				 <modal title="Describe The Bug" visible="showModal">
+				    <form role="form">
+				      <div class="form-group">
+				        <label for="bugTitle">Title</label>
+				        <input  ng-maxlength="150" type="text" class="form-control bug-title" class="bugTitle" placeholder="Enter a title" ng-model="newBug.bugtitle" />
+				      </div>
+				      <div class="form-group">
+				        <label for="bugDescr">Description</label>
+				        <input type="text" class="form-control" ng-model="newBug.descr" class="bugDescription" placeholder="Description" />
+				      </div>
+				      <button type="submit" ng-click="addBug(newBug)" class="btn btn-default">Add a bug</button>
+				    </form>
+		  		</modal> 
+		  		<div class="notification">Nothing to undo</div>
+
+		  		<modal title="Bug Description" visible="showSlideUpModal">
+				    <form role="form">
+				      <div class="form-group">
+				        <label for="bug-title">Title</label>
+				        	<input ng-maxlength="150" type="text" class="form-control bug-title" ng-readonly="!editable" ng-model="selectedBug.bugtitle" />
+				      </div>
+				      <div class="form-group">
+				        <label for="bug-descr">Description</label>
+				        	<textarea type="text" ng-readonly="!editable" class="form-control bug-description" ng-model="selectedBug.descr"></textarea>
+				      </div>
+				      <button type="submit" ng-click="saveEdits(selectedBug)" class="btn btn-default">{{submitButtonLabel}}</button>
+				    </form>
+		  		</modal> 
+
+				<header id="header">
+					<img class="bug-header" src="images/bug.png"/>
+					<span class="main-title"> BUG TRACKER </span>
+				</header>
+
+				<nav id="nav">
+					<div class="menu-button" ng-click="toggleModal()">Caught a Bug?</div>
+					<div class="menu-button" ng-click="undoMove()">Undo Move</div>
+				
+				</nav>
+				<section id="section">
+					<div class="progress-stack warning">
+						<div class="progress-stack-header">
+							<img class="desc-img" src="images/attention.png"/>
+							<p class="progress-stack-title">BACKLOG</p>
+						</div>
+
+						<div class="progress-list">
+							 <div ng-drag-clone="" class="odd">
+                					<li class="clone">
+										<div ng-class="bug-item">{{clonedData.bugtitle}}</div>
+									</li>
+           					</div>
+
+							<ul ng-drop="true" ng-drop-success="onDropBackLog($data,$event)" >
+           						 <draggableClone></draggableClone>
+								<li ng-drag="true" ng-drag-data="bug" ng-drag-success="onDragBacklog($data,$event)" data-allow-transform="true" ng-center-anchor="false" ng-repeat="bug in bugs | filter: backlogFilter" class="item-li">
+									<div class="bug-item">{{bug.id}}. {{bug.bugtitle}}
+										<icons bug="bug" on-show="showBug(bug)" on-delete="removeBug(bug)" on-edit="editBug(bug)"></icons>
+									</div>
+								</li>
+								 
+							</ul>
+						</div>
+					</div>
+					<div class="progress-stack pending">
+						<div class="progress-stack-header">
+							<div class="desc-img pending"><span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></div>
+							<p class="progress-stack-title">IN PROGRESS</p>
+						</div>
+						<div class="progress-list">
+							<ul ng-drop="true" ng-drop-success="onDropProgress($data,$event)">
+								<li ng-drag="true" ng-drag-data="bug" ng-drag-success="onDragProgress($data,$event)" ng-center-anchor="true" ng-repeat="bug in bugs | filter: progressFilter" class="item-li">
+									<div class="bug-item">{{bug.id}}. {{bug.bugtitle}}
+										<icons bug="bug" on-show="showBug(bug)" on-delete="removeBug(bug)" on-edit="editBug(bug)"></icons>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="progress-stack qa">
+						<div class="progress-stack-header">
+							<img class="desc-img" src="images/qa.png"/>
+							<p class="progress-stack-title">QUALITY ASSURANCE</p>
+						</div>
+						<div class="progress-list">
+							<ul ng-drop="true" ng-drop-success="onDropQA($data,$event)" >
+								<li ng-drag="true" ng-drag-data="bug" ng-drag-success="onDragQA($data,$event)" ng-center-anchor="true" ng-repeat="bug in bugs | filter: qaFilter" class="item-li">
+									<div class="bug-item">{{bug.id}}. {{bug.bugtitle}}
+										<icons bug="bug" on-show="showBug(bug)" on-delete="removeBug(bug)" on-edit="editBug(bug)"></icons>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="progress-stack complete">
+						<div class="progress-stack-header">
+							<img class="desc-img" src="images/complete.png"/>
+							<p class="progress-stack-title">COMPLETE</p>
+						</div>
+						<div class="progress-list">
+							<ul ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
+								<li ng-drag="true" ng-drag-data="bug" ng-drag-success="onDragComplte($data,$event)" ng-center-anchor="true" ng-repeat="bug in bugs | filter: completeFilter" class="item-li">
+									<div class="bug-item">{{bug.id}}. {{bug.bugtitle}}
+										<icons bug="bug" on-show="showBug(bug)" on-delete="removeBug(bug)" on-edit="editBug(bug)"></icons>
+									</div>
+								</li>
+							</ul>
+						</div>
+
+					</div>
+				</section>
+		
+		<script src="jquery-1.9.1.js"></script>
+		<script src="bootstrap.min.js"></script>
+		<script src="node_modules/angular/angular.js"></script>
+		<script src="bower_components/angular-animate/angular-animate.js"></script>
+		<script src="ngDraggable.js"></script>
+		<script src="app.js"></script>
+		<script src="services/bugStorage.js"></script>
+		<script src="directives/icons.js"></script>
+		<script src="directives/modal.js"></script>
+		<script src="controllers/MainCtrl.js"></script>	
+	</body>
+</html>
