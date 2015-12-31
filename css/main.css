@@ -179,9 +179,11 @@ font-size:16px!important;
 
 .progress-stack-title{
     font-family: josefinBold;
-    margin-left:5px;
+    margin-left: 10px;
     color: #404040;
-    position:relative
+    position: relative;
+    margin-top: 10px;
+    font-size: 18px;
 }
 
 
